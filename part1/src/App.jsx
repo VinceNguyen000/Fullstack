@@ -25,14 +25,23 @@ const Content = (props) => {
   );
 };
 
-const Total = (props) => {
+/* const Total = (props) => {
   const listTotalExercises = props.exercises;
   let total = 0;
   for (let i = 0; i < listTotalExercises.length; i++) {
     total += listTotalExercises[i];
   }
   return <div>Number of exercises: {total}</div>;
-};
+}; */
+
+const Total = (props) =>{
+  const listTotalExercises = props.parts.map(element => element.exercise)
+  let total = 0;
+  for (let i = 0; i < listTotalExercises.length; i++) {
+    total += listTotalExercises[i];
+  }
+  return <div>Number of exercises: {total}</div>;
+}
 
 const MyComponent = () => {
   const users = ["user 1", "user 2", "user 3"];
@@ -76,7 +85,8 @@ const App = () => {
       <MyComponent />
       <Header course={Course.name} />
       <Content parts={Course.parts} />
-      <Total exercises={Course.parts.map((element) => element["exercise"])} />
+      <Total parts={Course.parts} />
+      {/* <Total exercises={Course.parts.map((element) => element["exercise"])} /> */}
       <p>
         {part1} {exercises1}
       </p>
