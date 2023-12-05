@@ -77,21 +77,46 @@ const History = (props) => {
   return <div>button press history: {props.allClicks.join(" ")}</div>;
 };
 
-//------------------------------------------------- 1.7
-const Statistics = (props) => {
-};
+//------------------------------------------------- 1.8
+const Statistic = ({ good, neutral, bad, all, average, positive }) => (
+  <div>
+    <p>good: {good}</p>
+    <p>neutral: {neutral}</p>
+    <p>bad: {bad}</p>
+    <p>all: {all}</p>
+    <p>average: {average}</p>
+    <p>positive: {positive}%</p>
+  </div>
+);
 
+//------------------------------------------------- 1.9
+const Statistics = ({ good, neutral, bad, all, average, positive }) => {
+  if (all === 0) {
+    return <div>No feedback given</div>;
+  } else {
+    //passing Event Handlers to Child Components/another component here
+    return (
+      <Statistic
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        all={all}
+        average={average}
+        positive={positive}
+      />
+    );
+  }
+};
 /*-----------------------App---------------------------------------------------------------------------------------- */
 const App = () => {
-
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
   const [allFeedback, setAllFeedback] = useState(0);
 
   const all = good + neutral + bad;
-  const average = (good-bad)/all;
-  const positive = good *100/all;
+  const average = (good - bad) / all;
+  const positive = (good * 100) / all;
   /*------------------------------------------------- */
   const [counter, setCounter] = useState(0);
   console.log("rendering with counter value", counter);
@@ -231,7 +256,7 @@ const App = () => {
       {/* <Total exercises={Course.parts.map((element) => element["exercise"])} /> */}
       <p>Test</p>
       <MyComponent />
-      <h1>Part 1-6: unicafe</h1>
+      <h1>Part 1.6-1.14: unicafe</h1>
       <div>
         <Header course="Give Feedback" />
         <Button handleClick={feedbackGood} text="good" />
@@ -239,12 +264,34 @@ const App = () => {
         <Button handleClick={feedbackBad} text="bad" />
       </div>
       <div>
-        <div>good: {good}</div>
-        <div>neutral: {neutral}</div>
-        <div>bad: {bad}</div>
-        <div>all: {all}</div>
-        <div>average: {average}</div>
-        <div>positive: {positive}%</div>
+        <p>good: {good}</p>
+        <p>neutral: {neutral}</p>
+        <p>bad: {bad}</p>
+        <p>all: {all}</p>
+        <p>average: {average}</p>
+        <p>positive: {positive}%</p>
+      </div>
+      <div>
+        <h2>Statistic</h2>
+        <Statistic
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          all={all}
+          average={average}
+          positive={positive}
+        />
+      </div>
+      <div>
+        <h2>Statistics</h2>
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          all={all}
+          average={average}
+          positive={positive}
+        />
       </div>
     </div>
     //-------------------------------------------------
