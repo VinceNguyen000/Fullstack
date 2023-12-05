@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
+/*------------------------1.1-1.5------------------------- */
 const Header = (props) => {
   return <h1>{props.course}</h1>;
 };
@@ -53,19 +54,18 @@ const MyComponent = () => {
     </>
   );
 };
-/*------------------------------------------------- */
-//-------------------------------------------------destructuring
+
+//--------------------------------------------------------------------------------destructuring
 const Display = ({ counter }) => <div>{counter}</div>;
-//-------------------------------------------------equal to
+//--------------------------------------------------------------------------------equal to
 /* const Display = (props) => {
   return <div>{props.counter}</div>;
 }; */
 
-//-------------------------------------------------destructuring
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
-//-------------------------------------------------equal to
+//--------------------------------------------------------------------------------equal to
 /* const Button = (props) => {
   return <button onClick={props.onClick}>{props.text}</button>;
 }; */
@@ -77,7 +77,7 @@ const History = (props) => {
   return <div>button press history: {props.allClicks.join(" ")}</div>;
 };
 
-//------------------------------------------------- 1.8
+/*------------------------1.8------------------------- */
 const Statistic = ({ good, neutral, bad, all, average, positive }) => (
   <div>
     <p>good: {good}</p>
@@ -89,13 +89,13 @@ const Statistic = ({ good, neutral, bad, all, average, positive }) => (
   </div>
 );
 
-//------------------------------------------------- 1.9
+/*------------------------1.9------------------------- */
 const Statistics = ({ good, neutral, bad, all, average, positive }) => {
   if (all === 0) {
     return <div>No feedback given</div>;
   } else {
     //passing Event Handlers to Child Components/another component here
-    return (
+    /*     return (
       <Statistic
         good={good}
         neutral={neutral}
@@ -104,67 +104,45 @@ const Statistics = ({ good, neutral, bad, all, average, positive }) => {
         average={average}
         positive={positive}
       />
+    ); */
+    //--------------------------------------------------------------------------------refactor
+    return (
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={all} />
+          <StatisticLine text="average" value={average} />
+          <StatisticLine text="positive" value={positive} />
+        </tbody>
+      </table>
     );
   }
 };
-/*-----------------------App---------------------------------------------------------------------------------------- */
+/*------------------------1.10-1.11------------------------- */
+const StatisticLine = ({ text, value }) => {
+  if (text === "positive") {
+    return (
+      <div>
+        {text}: {value}%
+      </div>
+    );
+  }
+  return (
+    <div>
+      {text}: {value}
+    </div>
+  );
+};
+/*------------------------1.12-1.14------------------------- */
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+/*-----------------------App---------------------- */
 const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-  const [allFeedback, setAllFeedback] = useState(0);
-
-  const all = good + neutral + bad;
-  const average = (good - bad) / all;
-  const positive = (good * 100) / all;
-  /*------------------------------------------------- */
-  const [counter, setCounter] = useState(0);
-  console.log("rendering with counter value", counter);
-
-  // const handleClick = () => {
-  //   console.log("clicked");
-  // };
-
-  /*--------------------Time out--------------------- */
-  // setTimeout(() => setCounter(counter + 1), 1000);
-  // console.log("rendering...", counter);
-
-  const increaseByOne = () => {
-    console.log("increasing, value before", counter);
-    setCounter(counter + 1);
-  };
-
-  const decreaseByOne = () => {
-    console.log("decreasing, value before", counter);
-    setCounter(counter - 1);
-  };
-
-  const setToZero = () => {
-    console.log("resetting to zero, value before", counter);
-    setCounter(0);
-  };
-
-  /*------------------------------------------------- */
-  const [left, setLeft] = useState(0);
-  const [right, setRight] = useState(0);
-  const [allClicks, setAll] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  const handleLeftClick = () => {
-    setAll(allClicks.concat("L"));
-    const updatedLeft = left + 1;
-    setLeft(updatedLeft);
-    setTotal(updatedLeft + right);
-  };
-
-  const handleRightClick = () => {
-    setAll(allClicks.concat("R"));
-    const updatedRight = right + 1;
-    setRight(updatedRight);
-    setTotal(left + updatedRight);
-  };
-
-  /*------------------------------------------------- */
+  /*------------------------1.1-1.5------------------------- */
   const course = "Half Stack application development";
   const part1 = "Fundamentals of React";
   const exercises1 = 10;
@@ -190,7 +168,73 @@ const App = () => {
       },
     ],
   };
-  //------------------------------------------------- 1.6
+  /*------------------------1.6-1.11------------------------- */
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const all = good + neutral + bad;
+  const average = (good - bad) / all;
+  const positive = (good * 100) / all;
+  /*------------------------1.12------------------------- */
+  const anecdotes = [
+    "If it hurts, do it more often.",
+    "Adding manpower to a late software project makes it later!",
+    "The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+    "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+    "Premature optimization is the root of all evil.",
+    "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+    "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.",
+    "The only way to go fast, is to go well.",
+  ];
+
+  /*------------------------1.1-1.5------------------------- */
+  const [counter, setCounter] = useState(0);
+  console.log("rendering with counter value", counter);
+
+  // const handleClick = () => {
+  //   console.log("clicked");
+  // };
+
+  //--------------------------------------------------------------------------------Time out
+  // setTimeout(() => setCounter(counter + 1), 1000);
+  // console.log("rendering...", counter);
+
+  const increaseByOne = () => {
+    console.log("increasing, value before", counter);
+    setCounter(counter + 1);
+  };
+
+  const decreaseByOne = () => {
+    console.log("decreasing, value before", counter);
+    setCounter(counter - 1);
+  };
+
+  const setToZero = () => {
+    console.log("resetting to zero, value before", counter);
+    setCounter(0);
+  };
+
+  /*------------------------1.1-1.5------------------------- */
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(0);
+  const [allClicks, setAll] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  const handleLeftClick = () => {
+    setAll(allClicks.concat("L"));
+    const updatedLeft = left + 1;
+    setLeft(updatedLeft);
+    setTotal(updatedLeft + right);
+  };
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat("R"));
+    const updatedRight = right + 1;
+    setRight(updatedRight);
+    setTotal(left + updatedRight);
+  };
+  /*------------------------1.6-1.11------------------------- */
   const feedbackGood = () => {
     const updatedGood = good + 1;
     setGood(updatedGood);
@@ -206,10 +250,63 @@ const App = () => {
     setBad(updatedBad);
     setAllFeedback(good + neutral + updatedBad);
   };
-  //-------------------------------------------------
+  /*------------------------1.12------------------------- */
+  const [selected, setSelected] = useState(0);
+  const [vote, setVotes] = useState(Array(anecdotes.length).fill(0));
 
+  const nextAnedocte = () => {
+    let randomInt = getRandomInt(anecdotes.length);
+    while (randomInt === selected) {
+      randomInt = getRandomInt(anecdotes.length);
+    }
+    setSelected(randomInt);
+  };
+  /*------------------------1.13------------------------- */
+  const voteAnedocte = () => {
+    const newVote = [...vote];
+    newVote[selected] += 1;
+    setVotes(newVote);
+    console.log(newVote);
+  };
+  /*------------------------1.14------------------------- */
+  const HighestVotes = ({ anecdotes, vote }) => {
+    let highestVoteInt = Math.max(...vote);
+
+    if (highestVoteInt !== 0) {
+      let position = vote.indexOf(highestVoteInt);
+      return (
+        <div>
+          <p>{anecdotes[position]}</p>
+          <p> This anecdote has {highestVoteInt}</p>
+        </div>
+      );
+    }
+  };
+
+  //*------------------------return App------------------------- */
   return (
     <div>
+      {/*------------------------1.1-1.5------------------------- */}
+      <br />
+      <h1>Part 1-1</h1>
+      <p>
+        {part1} {exercises1}
+      </p>
+      <p>
+        {part2} {exercises2}
+      </p>
+      <p>
+        {part3} {exercises3}
+      </p>
+      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+      <Header course={Course.name} />
+      <Content parts={Course.parts} />
+      <Total parts={Course.parts} />
+      {/* <Total exercises={Course.parts.map((element) => element["exercise"])} /> */}
+      <p>Test</p>
+      <MyComponent />
+      {/*------------------------------------------------- */}
+      <h1>Part 1-2</h1>
       <div>
         {left}
         <Button handleClick={handleLeftClick} text="left" />
@@ -218,8 +315,6 @@ const App = () => {
 
         <History allClicks={allClicks} />
       </div>
-      {/*------------------------------------------------- */}
-      <h1>Part 1-2</h1>
       <div>{counter}</div>
       {/* event handler is a function or function reference */}
       <button onClick={() => setCounter(counter + 1)}>plus</button>
@@ -236,26 +331,7 @@ const App = () => {
       <Button onClick={increaseByOne} text="plus" />
       <Button onClick={setToZero} text="zero" />
       <Button onClick={decreaseByOne} text="minus" />
-      {/*------------------------------------------------- */}
-      <br />
-      <h1>Part 1-1</h1>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
-
-      <Header course={Course.name} />
-      <Content parts={Course.parts} />
-      <Total parts={Course.parts} />
-      {/* <Total exercises={Course.parts.map((element) => element["exercise"])} /> */}
-      <p>Test</p>
-      <MyComponent />
+      {/*-----------------------1.6-1.11-------------------------- */}
       <h1>Part 1.6-1.14: unicafe</h1>
       <div>
         <Header course="Give Feedback" />
@@ -293,8 +369,15 @@ const App = () => {
           positive={positive}
         />
       </div>
+      {/*---------------------------1.12---------------------- */}
+      <h2>Anecdotes of the day</h2>
+      <div>{anecdotes[selected]}</div>
+      <div>This quote has: {vote[selected]}</div>
+      <Button handleClick={nextAnedocte} text="next anecdocte" />
+      <Button handleClick={voteAnedocte} text="vote" />
+      <h2>Anecdotes with most votes</h2>
+      <HighestVotes anecdotes={anecdotes} vote={vote} />
     </div>
-    //-------------------------------------------------
   );
 };
 
