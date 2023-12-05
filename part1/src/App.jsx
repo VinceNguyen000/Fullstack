@@ -140,6 +140,21 @@ const StatisticLine = ({ text, value }) => {
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
+/*------------------------1.14------------------------- */
+const HighestVotes = ({ anecdotes, vote }) => {
+  let highestVoteInt = Math.max(...vote);
+
+  if (highestVoteInt !== 0) {
+    let position = vote.indexOf(highestVoteInt);
+    return (
+      <div>
+        <p>{anecdotes[position]}</p>
+        <p> This anecdote has {highestVoteInt}</p>
+      </div>
+    );
+  }
+};
+
 /*-----------------------App---------------------- */
 const App = () => {
   /*------------------------1.1-1.5------------------------- */
@@ -267,20 +282,6 @@ const App = () => {
     newVote[selected] += 1;
     setVotes(newVote);
     console.log(newVote);
-  };
-  /*------------------------1.14------------------------- */
-  const HighestVotes = ({ anecdotes, vote }) => {
-    let highestVoteInt = Math.max(...vote);
-
-    if (highestVoteInt !== 0) {
-      let position = vote.indexOf(highestVoteInt);
-      return (
-        <div>
-          <p>{anecdotes[position]}</p>
-          <p> This anecdote has {highestVoteInt}</p>
-        </div>
-      );
-    }
   };
 
   //*------------------------return App------------------------- */
