@@ -10,7 +10,9 @@ const App = () => {
   ]);
   const [names, setNames] = useState("");
   const [numbers, setNumbers] = useState("");
+  const [filteredNames, setFilteredNames] = useState("");
 
+  //------------------------------------------------------------------------------------------------------------//
   const addObject = (event) => {
     event.preventDefault();
     const aObject = {
@@ -40,25 +42,38 @@ const App = () => {
     }
   };
 
-  const handleName = (event) => {
+  const handleNames = (event) => {
     console.log("Inputting Name: ", event.target.value); // console input Name
     setNames(event.target.value);
   };
 
-  const handleNumber = (event) => {
+  const handleNumbers = (event) => {
     console.log("Inputting Number: ", event.target.value); // console input Number
     setNumbers(event.target.value);
   };
 
+  const handleFilterNames = (event) => {
+    setFilteredNames(event.target.value);
+  };
+
+  const filteredPersons = persons.filter((person) =>
+    person.name.includes(filteredNames)
+  );
+
   return (
     <div>
+      <div>
+        Search by Name:{" "}
+        <input value={filteredNames} onChange={handleFilterNames} />
+      </div>
+      {/* <div>Debug filtered Name: {filteredNames}</div> */}
       <h2>Phonebook</h2>
       <form onSubmit={addObject}>
         <div>
-          name: <input value={names} onChange={handleName} />
+          name: <input value={names} onChange={handleNames} />
         </div>
         <div>
-          number: <input value={numbers} onChange={handleNumber} />
+          number: <input value={numbers} onChange={handleNumbers} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -67,8 +82,8 @@ const App = () => {
       {/* <div>Debug inputting Name: {names}</div> */}
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => (
-          <Person key={person.id} person={person} />
+        {filteredPersons.map((filteredPerson) => (
+          <Person key={filteredPerson.id} person={filteredPerson} />
         ))}
       </ul>
     </div>
